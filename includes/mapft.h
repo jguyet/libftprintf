@@ -13,26 +13,34 @@
 #ifndef MAPFT_H
 # define MAPFT_H
 
-# include <stdlib.h>
-# include <stdio.h>
-# include <limits.h>
-# include <libft.h>
+# ifdef PROG_MAP_FT
+
+#  include <stdlib.h>
+#  include <limits.h>
+#  include <libft.h>
+#  include <printf.h>
+
+# endif
 
 typedef struct		s_hash
 {
 	void			*data;
 	void			*key;
 	struct s_hash	*next;
+	struct s_hash	*prev;
 }					t_hash;
 
 typedef struct		s_hashmap
 {
 	t_hash			**hashtable;
-	BOOLEAN			(*add)();
+	int				(*add)();
 	void			*(*get)();
-	int				(*size)();
-	void			(*tostring)();
+	int				size;
+	char			*(*tostring)();
 	void			(*clear)();
+	void			(*foreach)();
+	void			(*foreach1)();
+	int				(*remove)();
 	int				map_size;
 	int				type;
 }					t_hashmap;
@@ -42,10 +50,16 @@ typedef struct		s_hashmap
 /*
 ** Functions for hashMAP
 */
-BOOLEAN				add_hash(t_hashmap *table, void *key, void *data);
+int					parsekey(t_hashmap *table, void *key);
+t_hash				*get_hash_element(t_hashmap *table, void *key);
 void				*get_hash_value(t_hashmap *table, void *key);
 int					get_hash_size(t_hashmap *table);
+BOOLEAN				add_hash(t_hashmap *table, void *key, void *data);
 void				clear_hashtable(t_hashmap *table);
+BOOLEAN				remove_element_on_hashtable(t_hashmap *table, void *key);
+char				*tostring_hashtable(t_hashmap *map);
+void				foreach_hashtable(t_hashmap *table,\
+					void (*func)(), void *arg);
 
 # endif
 
@@ -54,4 +68,7 @@ void				clear_hashtable(t_hashmap *table);
 */
 t_hashmap			*newintegerhashmap(int size);
 t_hashmap			*newstringhashmap(int size);
+void				destruct_hashmap(t_hashmap *table);
+
+# define FOREACH_MAP(map, func, arg) map->foreach(map, func, arg)
 #endif

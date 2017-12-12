@@ -1,29 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcontains.c                                   :+:      :+:    :+:   */
+/*   hashmap_methods.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jguyet <jguyet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/08 19:40:45 by jguyet            #+#    #+#             */
-/*   Updated: 2017/05/08 19:40:47 by jguyet           ###   ########.fr       */
+/*   Created: 2017/02/25 12:23:15 by jguyet            #+#    #+#             */
+/*   Updated: 2017/02/25 12:23:17 by jguyet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#define PROG_MAP_FT
+#include "mapft.h"
 
-BOOLEAN	ft_strcontains(char const *src, char const *srh)
+/*
+** FOREACH METHOD
+*/
+
+void		foreach_hashtable(t_hashmap *table, void (*func)(), void *arg)
 {
-	int	i;
-	int srhlen;
+	int		i;
+	t_hash	*element;
+	t_hash	*tmp;
 
 	i = 0;
-	srhlen = ft_strlen(srh);
-	while (src[i])
+	while (i < table->map_size)
 	{
-		if (ft_strncmp(src + i, srh, srhlen) == 0)
-			return (true);
+		if (table->hashtable[i] != NULL)
+		{
+			element = table->hashtable[i];
+			while (element != NULL)
+			{
+				tmp = element->next;
+				func(element->key, element->data, arg);
+				element = tmp;
+			}
+		}
 		i++;
 	}
-	return (false);
 }

@@ -37,6 +37,8 @@ char		*modif_colors(char *string)
 {
 	if (COLOR_ACTIVED == 0)
 		return (string);
+	if (!ft_strcontains(string, "{") || !ft_strcontains(string, "}"))
+		return (string);
 	string = ft_replace(string, "{red}", RED);
 	string = ft_replace(string, "{reset}", NRM);
 	string = ft_replace(string, "{green}", GRN);

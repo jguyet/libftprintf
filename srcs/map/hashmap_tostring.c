@@ -1,29 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcontains.c                                   :+:      :+:    :+:   */
+/*   hashmap_tostring.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jguyet <jguyet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/08 19:40:45 by jguyet            #+#    #+#             */
-/*   Updated: 2017/05/08 19:40:47 by jguyet           ###   ########.fr       */
+/*   Created: 2017/02/23 15:42:27 by jguyet            #+#    #+#             */
+/*   Updated: 2017/02/23 15:42:29 by jguyet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#define PROG_MAP_FT
+#include "mapft.h"
 
-BOOLEAN	ft_strcontains(char const *src, char const *srh)
+/*
+** TOSTRING METHOD
+*/
+
+char		*tostring_hashtable(t_hashmap *map)
 {
-	int	i;
-	int srhlen;
-
-	i = 0;
-	srhlen = ft_strlen(srh);
-	while (src[i])
-	{
-		if (ft_strncmp(src + i, srh, srhlen) == 0)
-			return (true);
-		i++;
-	}
-	return (false);
+	(void)map;
+	return (NULL);
 }

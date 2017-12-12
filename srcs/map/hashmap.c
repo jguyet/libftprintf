@@ -13,10 +13,35 @@
 #define PROG_MAP_FT
 #include "mapft.h"
 
-void		tostring_hashtable(t_hashmap *map)
+/*
+** GENERATE KEY METHOD
+*/
+
+int			parsekey(t_hashmap *table, void *key)
 {
-	(void)map;
+	unsigned long int	hashkey;
+	int					i;
+
+	i = 0;
+	hashkey = 0;
+	if (table->type == 's')
+	{
+		while (hashkey < ULONG_MAX && (*(char*)key))
+		{
+			hashkey = hashkey << 8;
+			hashkey += (*(char*)key);
+			i++;
+			key++;
+		}
+	}
+	else if (table->type == 'i')
+		hashkey = (unsigned long int)key;
+	return (hashkey % table->map_size);
 }
+
+/*
+** INTEGER HASHMAP __CONTRUCTOR
+*/
 
 t_hashmap	*newintegerhashmap(int size)
 {
@@ -28,17 +53,23 @@ t_hashmap	*newintegerhashmap(int size)
 		return (NULL);
 	new->add = add_hash;
 	new->get = get_hash_value;
-	new->size = get_hash_size;
 	new->clear = clear_hashtable;
 	new->tostring = tostring_hashtable;
+	new->foreach = foreach_hashtable;
+	new->remove = remove_element_on_hashtable;
 	new->map_size = size;
 	new->type = 'i';
+	new->size = 0;
 	if (!(new->hashtable = (t_hash**)malloc(sizeof(t_hash*) * new->map_size)))
 		return (NULL);
 	while (i++ < new->map_size)
 		new->hashtable[i] = NULL;
 	return (new);
 }
+
+/*
+** STRING HASHMAP __CONTRUCTOR
+*/
 
 t_hashmap	*newstringhashmap(int size)
 {
@@ -50,14 +81,27 @@ t_hashmap	*newstringhashmap(int size)
 		return (NULL);
 	new->add = add_hash;
 	new->get = get_hash_value;
-	new->size = get_hash_size;
 	new->clear = clear_hashtable;
 	new->tostring = tostring_hashtable;
+	new->foreach = foreach_hashtable;
+	new->remove = remove_element_on_hashtable;
 	new->map_size = size;
 	new->type = 's';
+	new->size = 0;
 	if (!(new->hashtable = (t_hash**)malloc(sizeof(t_hash*) * new->map_size)))
 		return (NULL);
 	while (i++ < new->map_size)
 		new->hashtable[i] = NULL;
 	return (new);
+}
+
+/*
+** HASHMAP __DESTRUCTOR
+*/
+
+void		destruct_hashmap(t_hashmap *table)
+{
+	table->clear(table);
+	free(table->hashtable);
+	free(table);
 }

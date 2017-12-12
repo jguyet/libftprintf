@@ -180,7 +180,7 @@ char						*concat(char *s1, int *len1, char *s2, int len2);
 #  define CYN  "\x1B[36m"
 #  define WHT  "\x1B[37m"
 #  define BOL  "\e[1m"
-#  define COLOR_ACTIVED 0
+#  define COLOR_ACTIVED 1
 
 char						*modif_colors(char *string);
 

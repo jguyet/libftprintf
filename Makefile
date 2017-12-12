@@ -155,7 +155,11 @@ SRCBASE		=	\
 				printf/utils/concat.c						\
 				printf/colors/colors.c						\
 				map/hashmap.c								\
-				map/hashmap_functions.c
+				map/hashmap_getter.c						\
+				map/hashmap_setter.c						\
+				map/hashmap_remove.c						\
+				map/hashmap_tostring.c						\
+				map/hashmap_foreach.c
 
 SRCS		=	$(addprefix $(SRCDIR), $(SRCBASE))
 
